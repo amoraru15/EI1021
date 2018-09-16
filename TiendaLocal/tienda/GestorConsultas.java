@@ -173,6 +173,7 @@ public class GestorConsultas {
 			}
     	}else {// Si existe lo rellenamos con datos
     		try {
+			//LOS DATOS QUE HAY AHORA SON LOS DE PRUEBA QUE PONE EN LOS TEST QUE HAY QUE PASAR
        			Comic c = new Comic();
     			c.setCodigo(1);
     			c.setTitulo("Watchmen");
