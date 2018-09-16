@@ -48,20 +48,23 @@ public class PruebaTiendaLocal {
 			gestor.cierraGestor();
 			break;
 		case 2:
+				//REVISAR EL MÉTODO
 			gestor.listaAutores();
-			
 			break;
 		case 3:
+				//REVISAR EL MÉTODO
 			System.out.println("Introduce el nombre de un autor: ");
 			Scanner autor = new Scanner(System.in);
 			gestor.buscaAutor(autor.next());
 			break;
 		case 4:
+				//REVISAR EL MÉTODO
 			System.out.println("Introduce el nombre de un cómic para comprar: ");
 			Scanner codigo = new Scanner(System.in);
 			gestor.bajaEjemplar(codigo.nextInt());
 			break;
 		case 5:
+				//REVISAR EL MÉTODO
 			System.out.println("Introduce el nombre de un autor: ");
 			codigo = new Scanner(System.in);
 			gestor.altaEjemplar(codigo.nextInt());
