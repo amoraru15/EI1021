@@ -2,6 +2,7 @@ package tienda;
 
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -161,6 +162,65 @@ public class GestorConsultas {
     public void creaFichero(String nombreFichero) {
 
         // POR IMPLEMENTAR
+    	
+    	if(stream == null) {//Si el archivo no existe se crea
+    		File f = new File(nombreFichero);
+    		try {
+				stream = new RandomAccessFile(f,"rw");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}else {// Si existe lo rellenamos con datos
+    		try {
+       			Comic c = new Comic();
+    			c.setCodigo(1);
+    			c.setTitulo("Watchmen");
+    			c.setAutor("A. Moore");
+    			c.setPrecio(20.00f);
+    			c.setCantidad(3);
+    			stream.writeChars(c.toString() + "\n");
+				
+    			c = new Comic();
+    			c.setCodigo(2);
+				c.setTitulo("Akira");
+	    		c.setAutor("K. Otomo");
+	    		c.setPrecio(130.0f);
+	    		c.setCantidad(1);
+	    		stream.writeChars(c.toString() + "\n");
+	    		
+	    		c = new Comic();
+    			c.setCodigo(3);
+				c.setTitulo("Bone");
+	    		c.setAutor("J. Smith");
+	    		c.setPrecio(20.0f);
+	    		c.setCantidad(10);
+	    		stream.writeChars(c.toString() + "\n");
+	    		
+	    		c = new Comic();
+    			c.setCodigo(4);
+				c.setTitulo("The League of extraordinary gentlemen");
+	    		c.setAutor("A. Moore");
+	    		c.setPrecio(50.0f);
+	    		c.setCantidad(5);
+	    		stream.writeChars(c.toString() + "\n");
+	    		
+	    		c = new Comic();
+    			c.setCodigo(5);
+				c.setTitulo("Barrio lejano");
+	    		c.setAutor("J. Taniguchi");
+	    		c.setPrecio(35.0f);
+	    		c.setCantidad(2);
+	    		stream.writeChars(c.toString() + "\n");
+		
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    	
+    	}
+    
 
     }
 
