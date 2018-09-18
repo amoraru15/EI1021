@@ -26,7 +26,7 @@ public class PruebaTiendaLocal {
 			System.out.println("5. Revender a la tienda un ejemplar de un cómic de su catálogo con un código dado, actualizando sus existencias y mostrar sus datos .");
 			System.out.println("Elige una opción: ");
 			op = teclado.nextInt();
-		}while(op != 1);
+		} while(op != 1); // TODO: A menos que la opción sea 1 se queda en un bucle infinito sin hacer nada.
 		return op; // DEVOLVER EL VALOR ADECUADO EN CADA CASO;
 	}
 
@@ -40,7 +40,7 @@ public class PruebaTiendaLocal {
 
 		// POR IMPLEMENTAR
 		GestorConsultas gestor = new GestorConsultas();
-		gestor.creaFichero("");
+		gestor.creaFichero("./tmp");
 		int select = menu(new Scanner(System.in));
 		switch (select) {
 		case 1:
@@ -48,7 +48,7 @@ public class PruebaTiendaLocal {
 			gestor.cierraGestor();
 			break;
 		case 2:
-				//REVISAR EL MÉTODO
+			System.out.println("Listando Autores: ");
 			gestor.listaAutores();
 			break;
 		case 3:

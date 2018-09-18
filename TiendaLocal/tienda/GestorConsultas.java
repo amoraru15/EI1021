@@ -51,7 +51,7 @@ public class GestorConsultas {
         for (int index = 0; iter.hasNext(); index++) {
         	listaAutores[index] = iter.next();	// Pasamos los elementos de la Colección al Vector
         }
-       
+        System.out.println("LISTA "+listaAutores);
         return listaAutores;
     }
 
@@ -160,27 +160,19 @@ public class GestorConsultas {
      * @param   nombreFichero   nombre del fichero a crear
      */
     public void creaFichero(String nombreFichero) {
-
-        // POR IMPLEMENTAR
     	
-    	if(stream == null) {//Si el archivo no existe se crea
-    		File f = new File(nombreFichero);
+		File file = new File(nombreFichero);
+    	if(!file.exists()) {	//Si el archivo no existe se crea y se rellena con datos
     		try {
-				stream = new RandomAccessFile(f,"rw");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}else {// Si existe lo rellenamos con datos
-    		try {
-			//LOS DATOS QUE HAY AHORA SON LOS DE PRUEBA QUE PONE EN LOS TEST QUE HAY QUE PASAR
-       			Comic c = new Comic();
+				stream = new RandomAccessFile(file,"rw");
+				
+				Comic c = new Comic();
     			c.setCodigo(1);
     			c.setTitulo("Watchmen");
     			c.setAutor("A. Moore");
     			c.setPrecio(20.00f);
     			c.setCantidad(3);
-    			stream.writeChars(c.toString() + "\n");
+    			c.escribeEnFichero(stream);
 				
     			c = new Comic();
     			c.setCodigo(2);
@@ -188,15 +180,15 @@ public class GestorConsultas {
 	    		c.setAutor("K. Otomo");
 	    		c.setPrecio(130.0f);
 	    		c.setCantidad(1);
-	    		stream.writeChars(c.toString() + "\n");
-	    		
+    			c.escribeEnFichero(stream);
+    			
 	    		c = new Comic();
     			c.setCodigo(3);
 				c.setTitulo("Bone");
 	    		c.setAutor("J. Smith");
 	    		c.setPrecio(20.0f);
 	    		c.setCantidad(10);
-	    		stream.writeChars(c.toString() + "\n");
+    			c.escribeEnFichero(stream);
 	    		
 	    		c = new Comic();
     			c.setCodigo(4);
@@ -204,7 +196,7 @@ public class GestorConsultas {
 	    		c.setAutor("A. Moore");
 	    		c.setPrecio(50.0f);
 	    		c.setCantidad(5);
-	    		stream.writeChars(c.toString() + "\n");
+    			c.escribeEnFichero(stream);
 	    		
 	    		c = new Comic();
     			c.setCodigo(5);
@@ -212,18 +204,13 @@ public class GestorConsultas {
 	    		c.setAutor("J. Taniguchi");
 	    		c.setPrecio(35.0f);
 	    		c.setCantidad(2);
-	    		stream.writeChars(c.toString() + "\n");
-		
+    			c.escribeEnFichero(stream);
+	    		
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		
-    	
     	}
-    
-
     }
-
-
 }
