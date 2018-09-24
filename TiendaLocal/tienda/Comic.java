@@ -178,7 +178,6 @@ public class Comic implements Serializable {
 		stream.writeFloat(this.getPrecio());
 		stream.writeInt(this.getCantidad());
 		
-
     } // fin escribeEnFichero
 
 

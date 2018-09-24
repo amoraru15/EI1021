@@ -43,16 +43,15 @@ public class GestorConsultas {
 
     	Comic comic = new Comic();
     	Set<String> conjuntoAutores = new TreeSet<String>();
-    	stream.seek(0);//ponemos el puntero en la primera posición del fichero para leer todos los autores de la tienda
-    	while(stream.getFilePointer() != stream.length()) {
-    		comic.leeDeFichero(stream);
+    	stream.seek(0);
+    	while(stream.getFilePointer() != stream.length()) {	// Mientras no lleguemos al final del archivo
+    		comic.leeDeFichero(stream);						// Vamos añadiendo los autores a nuestro conjunto
     		conjuntoAutores.add(comic.getAutor());
     	}
     	String[] listaAutores = new String[conjuntoAutores.size()];
     	Iterator<String> iter = conjuntoAutores.iterator();
     	for (int index = 0; iter.hasNext(); index++) {
     		listaAutores[index] = iter.next();	// Pasamos los elementos de la Colección al Vector
-    		System.out.println(listaAutores[index]);
     	}
 
     	return listaAutores;
@@ -69,8 +68,10 @@ public class GestorConsultas {
     private long buscaCodigo(int codigoBuscado) throws IOException {
 
     	Comic comic = new Comic();
+    	long punteroAnterior;
+    	stream.seek(0);
     	while (stream.getFilePointer() != stream.length()) {
-    		long punteroAnterior = stream.getFilePointer();	// Nos guardamos el puntero para saber
+    		punteroAnterior = stream.getFilePointer();	// Nos guardamos el puntero para saber
     		comic.leeDeFichero(stream);						// Donde empieza el comic que vamos a leer
     		if (comic.getCodigo() == codigoBuscado)	// Si el codigo es correcto
     			return punteroAnterior;				// Devolvemos el puntero que habiamos guardado
@@ -91,28 +92,24 @@ public class GestorConsultas {
      */
     public String[] buscaAutor(String autorBuscado) throws EOFException, IOException {
 
-        Comic comic = new Comic();
-        ArrayList<String> listaAutores = new ArrayList<String>();
-        stream.seek(0);
-        while (stream.getFilePointer() != stream.length()) {
-        	System.out.println("antes de leer el fichero");
-        	comic.leeDeFichero(stream);
-        	System.out.println("antes del if");
-        	if (comic.getAutor()==autorBuscado) {	// Si el nombre del autor es el correcto	
-        		System.out.println("dentro del if");
-        		listaAutores.add(comic.getTitulo());	// Añadimos los elementos a la colección
-        		System.out.println("lista autores: " + listaAutores);
-        	}
-        }
-        
-        String[] listaComics = new String[listaAutores.size()];
-        Iterator<String> iter = listaAutores.iterator();
-        for (int index = 0; iter.hasNext(); index++) {
-        	listaComics[index] = iter.next();	// Pasamos los elementos de la Colección al Vector
-        	System.out.println("Comics del autor: " + listaComics[index]);
-        }
-       
-        return listaComics;
+		Comic comic = new Comic();
+		ArrayList<String> listaAutores = new ArrayList<String>();
+		stream.seek(0);
+		while (stream.getFilePointer() != stream.length()) {
+			comic.leeDeFichero(stream);
+			if (comic.getAutor().equals(autorBuscado)) {	// Si el nombre del autor es el correcto	
+				listaAutores.add(comic.getTitulo());		// Añadimos los elementos a la colección
+			}
+		}
+
+		String[] listaComics = new String[listaAutores.size()];
+
+		Iterator<String> iter = listaAutores.iterator();
+		for (int index = 0; iter.hasNext(); index++) {
+			listaComics[index] = iter.next();	// Pasamos los elementos de la Colección al Vector
+		}
+		
+		return listaComics;
     }
 
     /**
@@ -126,17 +123,20 @@ public class GestorConsultas {
     public String bajaEjemplar(int codigoBuscado) throws IOException {
     	
     	long puntero = buscaCodigo(codigoBuscado);
-    	String cadenaComic = new String();
-    	if (puntero == -1) return cadenaComic;
-    	
-    	// TODO: Decrementar el numero de ejemplares
+    	if (puntero == -1) return "No se encuentra el comic en la tienda.";
     	
     	stream.seek(puntero);	// Movemos el puntero del fichero donde toca
     	Comic comic = new Comic();
     	comic.leeDeFichero(stream);	// Leemos el comic
-    	int cantidadComics = comic.getCantidad();
-    	comic.setCantidad(cantidadComics--);
-    	cadenaComic = comic.toString();	// Lo convertimos a una cadena
+    	int cantidadComics = comic.getCantidad(); 
+    	if (cantidadComics == 0) return "No quedan ejemplares del comic en la tienda.";
+    	cantidadComics--;
+    	comic.setCantidad(cantidadComics);
+    	String cadenaComic = comic.toString();	// Lo convertimos a una cadena
+    	
+    	stream.seek(puntero);	// Movemos el puntero donde antes y pasamos a decrementar el numero de ejemplares
+    	stream.readInt(); stream.readUTF(); stream.readUTF();
+		stream.readFloat(); stream.writeInt(cantidadComics);
 
     	return cadenaComic;
     }
@@ -153,16 +153,18 @@ public class GestorConsultas {
 
     	long puntero = buscaCodigo(codigoBuscado);
     	String cadenaComic = new String();
-    	if (puntero == -1) return cadenaComic;
-    	
-    	// TODO: Incrementar el numero de ejemplares
+    	if (puntero == -1) return "No se encuentra el comic en la tienda.";
     	
     	stream.seek(puntero);	// Movemos el puntero del fichero donde toca
     	Comic comic = new Comic();
     	comic.leeDeFichero(stream);	// Leemos el comic
-    	int cantidadLibros = comic.getCantidad();
-    	comic.setCantidad(cantidadLibros++);
+    	int cantidadComics = comic.getCantidad(); cantidadComics++;
+    	comic.setCantidad(cantidadComics);
     	cadenaComic = comic.toString();	// Lo convertimos a una cadena
+    	
+    	stream.seek(puntero);	// Movemos el puntero donde antes y pasamos a incrementar el numero de ejemplares
+    	stream.readInt(); stream.readUTF(); stream.readUTF();
+		stream.readFloat(); stream.writeInt(cantidadComics);
 
     	return cadenaComic;
     }
@@ -175,19 +177,12 @@ public class GestorConsultas {
      */
     public void creaFichero(String nombreFichero) {
 
-        // POR IMPLEMENTAR
-    	
-    	if(stream == null) {//Si el archivo no existe se crea
-    		File f = new File(nombreFichero);
+    	File file = new File(nombreFichero);
+    	if(!file.exists()) {	//Si el archivo no existe se crea y se rellena con datos
     		try {
-				stream = new RandomAccessFile(f,"rw");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}else {// Si existe lo rellenamos con datos
-    		try {
-       			Comic c = new Comic();
+				stream = new RandomAccessFile(file,"rw");
+				
+				Comic c = new Comic();
     			c.setCodigo(1);
     			c.setTitulo("Watchmen");
     			c.setAutor("A. Moore");
@@ -201,15 +196,15 @@ public class GestorConsultas {
 	    		c.setAutor("K. Otomo");
 	    		c.setPrecio(130.0f);
 	    		c.setCantidad(1);
-	    		c.escribeEnFichero(stream);
-	    		
+    			c.escribeEnFichero(stream);
+    			
 	    		c = new Comic();
     			c.setCodigo(3);
 				c.setTitulo("Bone");
 	    		c.setAutor("J. Smith");
 	    		c.setPrecio(20.0f);
 	    		c.setCantidad(10);
-	    		c.escribeEnFichero(stream);
+    			c.escribeEnFichero(stream);
 	    		
 	    		c = new Comic();
     			c.setCodigo(4);
@@ -217,7 +212,7 @@ public class GestorConsultas {
 	    		c.setAutor("A. Moore");
 	    		c.setPrecio(50.0f);
 	    		c.setCantidad(5);
-	    		c.escribeEnFichero(stream);
+    			c.escribeEnFichero(stream);
 	    		
 	    		c = new Comic();
     			c.setCodigo(5);
@@ -225,18 +220,21 @@ public class GestorConsultas {
 	    		c.setAutor("J. Taniguchi");
 	    		c.setPrecio(35.0f);
 	    		c.setCantidad(2);
-	    		c.escribeEnFichero(stream);
-		
+    			c.escribeEnFichero(stream);
+	    		
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    	else {
+			try {
+				stream = new RandomAccessFile(file,"rw");
+			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		
-    	
-    	}
-    
-
+		}
     }
-
-
 }
