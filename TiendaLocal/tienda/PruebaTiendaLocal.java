@@ -26,7 +26,9 @@ public class PruebaTiendaLocal {
 			System.out.println("5. Revender a la tienda un ejemplar de un cómic de su catálogo con un código dado, actualizando sus existencias y mostrar sus datos .");
 			System.out.println("Elige una opción: ");
 			op = teclado.nextInt();
-		} while(op != 1); // TODO: A menos que la opción sea 1 se queda en un bucle infinito sin hacer nada.
+			
+		}while(op < 1 ||  op > 5);
+		teclado.nextLine();
 		return op; // DEVOLVER EL VALOR ADECUADO EN CADA CASO;
 	}
 
@@ -40,38 +42,35 @@ public class PruebaTiendaLocal {
 
 		// POR IMPLEMENTAR
 		GestorConsultas gestor = new GestorConsultas();
-		gestor.creaFichero("./tmp");
-		int select = menu(new Scanner(System.in));
+		gestor.creaFichero("");
+		Scanner teclado = new Scanner(System.in);
+		int select = menu(teclado);
 		switch (select) {
 		case 1:
-			System.out.println("CERRANDO EL PROGRAMA");
+			System.out.println("CERRANDO EL PROGRAMA DE PRUEBA");
 			gestor.cierraGestor();
 			break;
 		case 2:
-			System.out.println("Listando Autores: ");
 			gestor.listaAutores();
 			break;
 		case 3:
-				//REVISAR EL MÉTODO
 			System.out.println("Introduce el nombre de un autor: ");
-			Scanner autor = new Scanner(System.in);
-			gestor.buscaAutor(autor.next());
+			String autor = teclado.next();
+			gestor.buscaAutor(autor);
 			break;
 		case 4:
-				//REVISAR EL MÉTODO
 			System.out.println("Introduce el nombre de un cómic para comprar: ");
-			Scanner codigo = new Scanner(System.in);
-			gestor.bajaEjemplar(codigo.nextInt());
+			int codigo = teclado.nextInt();
+			gestor.bajaEjemplar(codigo);
 			break;
 		case 5:
-				//REVISAR EL MÉTODO
 			System.out.println("Introduce el nombre de un autor: ");
-			codigo = new Scanner(System.in);
-			gestor.altaEjemplar(codigo.nextInt());
+			codigo = teclado.nextInt();
+			gestor.altaEjemplar(codigo);
 		default:
 			break;
 		}
-
+		teclado.close();
 	} // fin de main
 
 } // fin class PruebaFicheroComics

@@ -137,6 +137,7 @@ public class Comic implements Serializable {
         System.out.println("Introduce el Autor: "); this.setAutor(teclado.next());
         System.out.println("Introduce el Precio: "); this.setPrecio(teclado.nextFloat());
         System.out.println("Introduce el Numero de Ejemplares: "); this.setCantidad(teclado.nextInt());
+        
 
     } // fin leeDeTeclado
 
@@ -147,13 +148,20 @@ public class Comic implements Serializable {
      * @throws EOFException, IOException
      */
     public void leeDeFichero(RandomAccessFile stream) throws EOFException, IOException {
-
-        this.setCodigo(stream.readInt());
-        this.setTitulo(stream.readUTF());
-        this.setAutor(stream.readUTF());
-        this.setPrecio(stream.readFloat());
-        this.setCantidad(stream.readInt());
-
+    	//try {
+    		this.setCodigo(stream.readInt());
+    		//System.out.println("codigo leido" + codigo +  " puntero " + stream.getFilePointer());
+    		this.setTitulo(stream.readUTF());
+    		//System.out.println("titulo leido " + titulo +  " puntero " + stream.getFilePointer());
+    		this.setAutor(stream.readUTF());
+    		//System.out.println("autor leido " + autor + " puntero " + stream.getFilePointer());
+    		this.setPrecio(stream.readFloat());
+    		//System.out.println("precio leido " + precio + " puntero " + stream.getFilePointer());
+    		this.setCantidad(stream.readInt());
+    		//System.out.println("cantidad leido " + cantidad +" puntero " + stream.getFilePointer());
+    	//}catch (EOFException e) {
+    		//System.out.println("Excepción controlada en Comic.java: Final del fichero");// TODO: handle exception
+		//}
     } // fin leeDeFichero
 
     /**
@@ -163,12 +171,13 @@ public class Comic implements Serializable {
      * @throws IOException 
      */
     public void escribeEnFichero(RandomAccessFile stream) throws IOException {
-
+    	
 		stream.writeInt(this.getCodigo());
 		stream.writeUTF(this.getTitulo());
 		stream.writeUTF(this.getAutor());
 		stream.writeFloat(this.getPrecio());
 		stream.writeInt(this.getCantidad());
+		
 
     } // fin escribeEnFichero
 
