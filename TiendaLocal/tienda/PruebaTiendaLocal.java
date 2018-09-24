@@ -3,8 +3,6 @@ package tienda;
 import java.io.IOException;
 import java.util.Scanner;
 
-import javafx.scene.web.PromptData;
-
 
 public class PruebaTiendaLocal {
 
@@ -28,6 +26,7 @@ public class PruebaTiendaLocal {
 		System.out.println("------------------");
 		System.out.println("Elige una opción: ");
 		op = teclado.nextInt();
+		teclado.nextLine();
 		
 		return op; // DEVOLVER EL VALOR ADECUADO EN CADA CASO;
 	}
@@ -61,7 +60,6 @@ public class PruebaTiendaLocal {
 				break;
 			case 3:
 				System.out.println("Introduce el nombre de un autor: ");
-				teclado.nextLine();
 				String autor = teclado.nextLine();
 				String[] listaComics = gestor.buscaAutor(autor);
 				if (listaComics.length == 0) System.out.println("No se ha encontrado el autor.");
