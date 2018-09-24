@@ -132,7 +132,7 @@ public class Comic implements Serializable {
      */
     public void leeDeTeclado(Scanner teclado) {
 
-        System.out.println("Introduce el Codigo: "); this.setCodigo(teclado.nextInt());
+        System.out.println("Introduce el Código: "); this.setCodigo(teclado.nextInt());
         System.out.println("Introduce el Titulo: "); this.setTitulo(teclado.next());
         System.out.println("Introduce el Autor: "); this.setAutor(teclado.next());
         System.out.println("Introduce el Precio: "); this.setPrecio(teclado.nextFloat());
@@ -148,20 +148,13 @@ public class Comic implements Serializable {
      * @throws EOFException, IOException
      */
     public void leeDeFichero(RandomAccessFile stream) throws EOFException, IOException {
-    	//try {
+    	
     		this.setCodigo(stream.readInt());
-    		//System.out.println("codigo leido" + codigo +  " puntero " + stream.getFilePointer());
     		this.setTitulo(stream.readUTF());
-    		//System.out.println("titulo leido " + titulo +  " puntero " + stream.getFilePointer());
     		this.setAutor(stream.readUTF());
-    		//System.out.println("autor leido " + autor + " puntero " + stream.getFilePointer());
     		this.setPrecio(stream.readFloat());
-    		//System.out.println("precio leido " + precio + " puntero " + stream.getFilePointer());
     		this.setCantidad(stream.readInt());
-    		//System.out.println("cantidad leido " + cantidad +" puntero " + stream.getFilePointer());
-    	//}catch (EOFException e) {
-    		//System.out.println("Excepción controlada en Comic.java: Final del fichero");// TODO: handle exception
-		//}
+    		
     } // fin leeDeFichero
 
     /**

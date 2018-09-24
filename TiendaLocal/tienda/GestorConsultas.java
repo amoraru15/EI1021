@@ -153,7 +153,7 @@ public class GestorConsultas {
 
     	long puntero = buscaCodigo(codigoBuscado);
     	String cadenaComic = new String();
-    	if (puntero == -1) return "No se encuentra el comic en la tienda.";
+    	if (puntero == -1) return "No se encuentra el cómic en la tienda.";
     	
     	stream.seek(puntero);	// Movemos el puntero del fichero donde toca
     	Comic comic = new Comic();
