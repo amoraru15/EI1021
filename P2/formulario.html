@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"/>
+<html>
+<head>
+    <style>
+
+    form{
+        width: 80%;
+        margin-left: 10%;  
+        
+    }
+    legend{
+        font-size: 40px;
+        color: blue;
+    }
+    table{
+        text-align: left; 
+    }
+    p{
+        margin-left: 10%;
+    }
+    </style>
+
+</head>
+<body>
+        <form action="">
+            <fieldset>
+              <legend>Registro de clientes de la Tienda de cómics</legend>
+              <table>
+                  <tr>
+                      <td>Nombre (*):</td>
+                      <td><input type="text" name="nombre" required></td>
+                  </tr>
+                  <tr>
+                      <td>Primer apellido(*):</td>
+                      <td><input type="text" name="primerApellido" required></td>
+                  </tr>
+                  <tr>
+                      <td>Segundo apellido:</td>
+                      <td><input type="text" name="segundoApellido" value=""></td>
+                  </tr>
+                  <tr>
+                      <td>DNI (*):</td>
+                      <td><input type="text" name="dni" value="" maxlength="9" required></td>
+                  </tr>
+                  <tr>
+                      <td>Email (*):</td>
+                      <td><input type="text" name="email" value="" required></td>
+                  </tr>
+                  <tr>
+                      <td>Tipo de pago (*):</td>
+                      <td><input type="radio" name="tipoPago" value="contrarrembolso" required="required"> Contrarrembolso
+                        <input type="radio" name="tipoPago" value="visa" required="required"> Tarjeta VISA
+                        <input type="radio" name="tipoPago" value="cheque" required="required"> Cheque</td>
+                  </tr>
+                  <tr>
+                      <td>Fecha de nacimiento (ddmmaaa):</td>
+                      <td><input type="text" name="fechaNacimiento" value=""></td>
+                  </tr>
+                  <tr>
+                      <td>Hijos:</td>
+                      <td><input type="checkbox"></td>
+                  </tr>
+                  <tr>
+                      <td>Sexo:</td>
+                      <td><input type="radio" name="genero" value="hombre"> Hombre
+                        <input type="radio" name="genero" value="mujer"> Mujer</td>
+                  </tr>
+                  <tr>
+                      <td>Estudios:</td>
+                      <td><select name="tipoEstudios" >
+                        <option value="seleccion">Seleccione un tipo de estudios:</option>    
+                        <option value="sinEstudios">Sin Estudios</option>
+                            <option value="educacionPrimaria">Educación primaria</option>
+                            <option value="educacionSecundaria">Educación Secundaria</option>
+                            <option value="estudiosUniversitarios">Estudios Universitarios</option>
+                      </select> </td>
+                  </tr>
+                  <tr>
+                      <td>Contraseña (*):</td>
+                      <td><input type="password" name="password" value="" required></td>
+                  </tr>
+                  <tr>
+                      <td>Repita su contraseña (*):</td>
+                      <td><input type="password" name="rPassoword" value="" required></td>
+                  </tr>
+                  <tr>
+                      <td><input type="submit" value="Enviar datos"></td>
+                      <td><input type="reset" value="Borrar datos"></td>
+                  </tr>
+            </table>
+            </fieldset>
+          </form> 
+          <p>(*) Los campos con asterisco son obligatorios</p>
+          
+
+
+
+</body>
+</html>
