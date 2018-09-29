@@ -14,8 +14,6 @@ public class PruebaTiendaLocal {
 	 */
 	public static int menu(Scanner teclado) {
 
-		// POR IMPLEMENTAR
-
 		int op = 0;
 		
 		System.out.println("1. Salir del programa.");

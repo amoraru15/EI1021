@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
@@ -42,17 +43,14 @@ public class GestorConsultas {
     public String[] listaAutores() throws IOException {
 
     	Comic comic = new Comic();
-    	Set<String> conjuntoAutores = new TreeSet<String>();
+    	Set<String> conjuntoAutores = new HashSet<String>();
     	stream.seek(0);
     	while(stream.getFilePointer() != stream.length()) {	// Mientras no lleguemos al final del archivo
     		comic.leeDeFichero(stream);						// Vamos añadiendo los autores a nuestro conjunto
     		conjuntoAutores.add(comic.getAutor());
     	}
-    	String[] listaAutores = new String[conjuntoAutores.size()];
-    	Iterator<String> iter = conjuntoAutores.iterator();
-    	for (int index = 0; iter.hasNext(); index++) {
-    		listaAutores[index] = iter.next();	// Pasamos los elementos de la Colección al Vector
-    	}
+    	
+    	String[] listaAutores = conjuntoAutores.toArray(new String [conjuntoAutores.size()]);
 
     	return listaAutores;
     }
@@ -102,12 +100,8 @@ public class GestorConsultas {
 			}
 		}
 
-		String[] listaComics = new String[listaAutores.size()];
-
-		Iterator<String> iter = listaAutores.iterator();
-		for (int index = 0; iter.hasNext(); index++) {
-			listaComics[index] = iter.next();	// Pasamos los elementos de la Colección al Vector
-		}
+		String[] listaComics = listaAutores.toArray(new String[listaAutores.size()]);
+		
 		
 		return listaComics;
     }
@@ -182,44 +176,19 @@ public class GestorConsultas {
     		try {
 				stream = new RandomAccessFile(file,"rw");
 				
-				Comic c = new Comic();
-    			c.setCodigo(1);
-    			c.setTitulo("Watchmen");
-    			c.setAutor("A. Moore");
-    			c.setPrecio(20.00f);
-    			c.setCantidad(3);
+				Comic c = new Comic(1, "Watchmen", "A. Moore", 20.00f, 3);
     			c.escribeEnFichero(stream);
 				
-    			c = new Comic();
-    			c.setCodigo(2);
-				c.setTitulo("Akira");
-	    		c.setAutor("K. Otomo");
-	    		c.setPrecio(130.0f);
-	    		c.setCantidad(1);
+    			c = new Comic(2, "Akira", "K. Otomo", 130.00f, 1);
     			c.escribeEnFichero(stream);
     			
-	    		c = new Comic();
-    			c.setCodigo(3);
-				c.setTitulo("Bone");
-	    		c.setAutor("J. Smith");
-	    		c.setPrecio(20.0f);
-	    		c.setCantidad(10);
+	    		c = new Comic(3, "Bone", "J. Smith", 20.00f, 10);
     			c.escribeEnFichero(stream);
 	    		
-	    		c = new Comic();
-    			c.setCodigo(4);
-				c.setTitulo("The League of extraordinary gentlemen");
-	    		c.setAutor("A. Moore");
-	    		c.setPrecio(50.0f);
-	    		c.setCantidad(5);
+	    		c = new Comic(4, "The League of Extraordinay Gentlemen", "A. Moore", 50.00f, 5);
     			c.escribeEnFichero(stream);
 	    		
-	    		c = new Comic();
-    			c.setCodigo(5);
-				c.setTitulo("Barrio lejano");
-	    		c.setAutor("J. Taniguchi");
-	    		c.setPrecio(35.0f);
-	    		c.setCantidad(2);
+	    		c = new Comic(5, "Barrio Lejano", "J. Taniguchi", 35.00f, 2);
     			c.escribeEnFichero(stream);
 	    		
 			} catch (FileNotFoundException e) {
@@ -232,7 +201,6 @@ public class GestorConsultas {
 			try {
 				stream = new RandomAccessFile(file,"rw");
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
