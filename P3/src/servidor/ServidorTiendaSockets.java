@@ -6,7 +6,6 @@ import gestor.GestorConsultas;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-
 /**
  * Este modulo contiene la logica de aplicacion del servidor de la Tienda de Comics.
  * Utiliza sockets en modo stream para llevar a cabo la comunicacion entre procesos.
@@ -14,16 +13,14 @@ import java.net.ServerSocket;
  * Se le puede indicar el puerto del servidor en linea de ordenes.
  */
 
-
 public class ServidorTiendaSockets {
 
     static private GestorConsultas gestor;
 
 	public static void main(String[] args) {
-
         // Acepta conexiones vía socket de distintos clientes.
         // Por cada conexión establecida lanza una hebra de la clase HiloServidorTienda.
-    	int serverPort = 13;
+    	int serverPort = 12345;
     	gestor = new GestorConsultas();
     	if(args.length == 1) {
     		serverPort = Integer.parseInt(args[0]);

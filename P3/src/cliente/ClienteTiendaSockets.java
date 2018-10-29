@@ -52,25 +52,9 @@ public class ClienteTiendaSockets {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
-		InputStreamReader is = new InputStreamReader(System.in);
-		BufferedReader br = new BufferedReader(is);
 		try {
-			System.out.println("Introduce el nombre del servidor: ");
-			String hostName = br.readLine();
-			if(hostName.length() == 0) {
-				hostName = "localhost";
-			}
-			System.out.println("Introduce el numero de puerto: ");
-			String portNum = br.readLine();
-			if(portNum.length()==0){
-				portNum = "13";
-			}
-			AuxiliarClienteTienda auxCliente = new AuxiliarClienteTienda(hostName, portNum);
+			AuxiliarClienteTienda auxCliente = new AuxiliarClienteTienda("localhost", "12345");
 			
-
-
-			/*----CODIGO PRACTICA 1-----GestorConsultas gestor = new GestorConsultas();
-		new GestorConsultas();
 			Scanner teclado = new Scanner(System.in);
 			int select = 0;
 			while (select != 1) {
@@ -110,15 +94,10 @@ public class ClienteTiendaSockets {
 				}
 			}
 
-			teclado.close();*/
+			teclado.close();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	} // fin de main
 
 } // fin class PruebaFicheroComics
-
-
-
-
-

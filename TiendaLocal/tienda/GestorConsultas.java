@@ -96,7 +96,7 @@ public class GestorConsultas {
 		while (stream.getFilePointer() != stream.length()) {
 			comic.leeDeFichero(stream);
 			if (comic.getAutor().equals(autorBuscado)) {	// Si el nombre del autor es el correcto	
-				listaAutores.add(comic.getTitulo());		// Añadimos los elementos a la colección
+				listaAutores.add(comic.toString());		// Añadimos los elementos a la colección
 			}
 		}
 

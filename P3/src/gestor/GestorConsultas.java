@@ -41,7 +41,7 @@ public class GestorConsultas {
     public String[] listaAutores() throws IOException {
 
     	Comic comic = new Comic();
-    	Set<String> conjuntoAutores = new HashSet<String>();//Creamos un conjunto para no guardar autores repetidos
+    	Set<String> conjuntoAutores = new HashSet<String>();	// Creamos un conjunto para no guardar autores repetidos
     	stream.seek(0);
     	while(stream.getFilePointer() != stream.length()) {	// Mientras no lleguemos al final del archivo
     		comic.leeDeFichero(stream);						// Vamos añadiendo los autores a nuestro conjunto
@@ -49,7 +49,6 @@ public class GestorConsultas {
     	}
     	
     	String[] listaAutores = conjuntoAutores.toArray(new String [conjuntoAutores.size()]);
-
     	return listaAutores;
     }
 
@@ -72,7 +71,6 @@ public class GestorConsultas {
     		if (comic.getCodigo() == codigoBuscado)	// Si el codigo es correcto
     			return punteroAnterior;				// Devolvemos el puntero que habiamos guardado
     	}
-
     	return -1; 
     }
 
@@ -94,13 +92,11 @@ public class GestorConsultas {
 		while (stream.getFilePointer() != stream.length()) {
 			comic.leeDeFichero(stream);
 			if (comic.getAutor().equals(autorBuscado)) {	// Si el nombre del autor es el correcto	
-				listaAutores.add(comic.getTitulo());		// Añadimos los elementos a la colección
+				listaAutores.add(comic.toString());		// Añadimos los elementos a la colección
 			}
 		}
 
 		String[] listaComics = listaAutores.toArray(new String[listaAutores.size()]);
-		
-		
 		return listaComics;
     }
 

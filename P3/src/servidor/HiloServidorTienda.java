@@ -23,7 +23,6 @@ class HiloServidorTienda implements Runnable {
      * @param unGestor     stream asociado al fichero con los datos de los c�mics
      */
     HiloServidorTienda(MyStreamSocket myDataSocket, GestorConsultas unGestor) {
-    	// POR IMPLEMENTAR
     	this.myDataSocket = myDataSocket;
     	this.gestor = unGestor;
 
@@ -36,7 +35,7 @@ class HiloServidorTienda implements Runnable {
         boolean done = false;
         int operacion = 0;
         // ...
-        String [] peticion = null;
+        String[] peticion = null;
                 
         try {
             while (!done) {
@@ -53,39 +52,36 @@ class HiloServidorTienda implements Runnable {
                     case 1: { // Lista autores en el catalogo
                         // ...
                     	String[] listaDeAutores = gestor.listaAutores();
-                    	int numAutores = listaDeAutores.length;
-                    	myDataSocket.sendMessage(String.valueOf(numAutores));//Enviamos el numero de autores del catálogo
-                    	if (numAutores > 0)
-                    		for (int i=0; i<numAutores; i++)
-                    			myDataSocket.sendMessage(listaDeAutores[i]);//Enviamos cada uno de los autores
+                    	String msj = "";
+                    	for (String autor: listaDeAutores) { // Concatenamos los autores separandolos con un #
+                    		msj = msj + autor + "#";                  		
+                    	}
+                    	myDataSocket.sendMessage(msj);	// Enviamos el mensaje con los autores
                         break;
                     }
-
                     case 2: { // Buscar comics por autor
                         // ...
                     	String autorBuscado = peticion[1];
-                    	String [] datosAutor = gestor.buscaAutor(autorBuscado);
-                    	int numComics = datosAutor.length;
-                    	myDataSocket.sendMessage(autorBuscado);
-                    	for(int i = 0; i < numComics; i++)
-                    		myDataSocket.sendMessage(datosAutor[i]);
-                    	
+                    	String [] comicsAutor = gestor.buscaAutor(autorBuscado);
+                    	String msj = "";
+                    	for (String comic: comicsAutor) { // Concatenamos los comics del autor separandolos con un #
+                    		msj = msj + comic + "#";                  		
+                    	}
+                    	myDataSocket.sendMessage(msj);	// Enviamos el mensaje con los datos del autor	
                         break;
                     }
                     case 3: { // Comprar un comic
                         // ...
                     	int codigoBuscado = Integer.parseInt(peticion[1]);
                     	String datosComic = gestor.bajaEjemplar(codigoBuscado);
-                    	myDataSocket.sendMessage(datosComic);
-                    		
+                    	myDataSocket.sendMessage(datosComic);	
                         break;
                     }
-                    case 4: { // Vende un comic
+                    case 4: { // Vender un comic
                         // ...
                     	int codigoBuscado = Integer.parseInt(peticion[1]);
                     	String datosComic = gestor.altaEjemplar(codigoBuscado);
                     	myDataSocket.sendMessage(datosComic);
-
                         break;
                     }
 
@@ -95,7 +91,5 @@ class HiloServidorTienda implements Runnable {
         catch (Exception ex) {
             System.out.println("Exception caught in thread: " + ex);
         } // fin catch
-    } //fin run
-    
-
+    } // fin run
 } //fin class 

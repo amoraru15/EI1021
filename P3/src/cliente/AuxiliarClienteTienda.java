@@ -29,7 +29,6 @@ public class AuxiliarClienteTienda {
      */
     AuxiliarClienteTienda(String hostName, String portNum)
             throws SocketException, UnknownHostException, IOException {
-        // POR IMPLEMENTAR
     	this.serverPort = Integer.parseInt(portNum);
     	this.serverHost = InetAddress.getByName(hostName);
     	this.mySocket = new MyStreamSocket(serverHost,serverPort);
@@ -44,13 +43,10 @@ public class AuxiliarClienteTienda {
      * @throws IOException
      */
     public String[] listaAutores() throws IOException {
-    	// POR IMPLEMENTAR
     	String msjEnviado = "1";
-    	mySocket.sendMessage(msjEnviado);//Enviamos al socket la operacion a realizar
-    	String msjRecibido = mySocket.receiveMessage();
-    	//pasarlo a vector
-    	String [] vector = new String[msjRecibido.length()];
-        return vector; // cambiar por el retorno correcto
+    	mySocket.sendMessage(msjEnviado);	// Enviamos al socket la operacion a realizar
+    	String[] autores = mySocket.receiveMessage().split("#");
+        return autores;	// Devolvemos los autores
 
     } // end buscaAutor
 
@@ -62,13 +58,10 @@ public class AuxiliarClienteTienda {
      * @throws IOException
      */
     public String[] buscaAutor(String autorComic) throws IOException {
-    	// POR IMPLEMENTAR
     	String msjEnviado = "2#" + autorComic;
-    	mySocket.sendMessage(msjEnviado);//Enviamos al socket la operacion a realizar
-    	String msjRecibido = mySocket.receiveMessage();
-    	//pasarlo a vector
-    	String [] vector = new String[msjRecibido.length()];
-        return vector; // cambiar por el retorno correcto
+    	mySocket.sendMessage(msjEnviado);	// Enviamos al socket la operacion a realizar
+    	String[] comicsAutor = mySocket.receiveMessage().split("#");
+        return comicsAutor; // Devolvemos la información de los comics
 
     } // end buscaAutor
 
@@ -81,13 +74,10 @@ public class AuxiliarClienteTienda {
      * @throws IOException
      */
     public String compraComic(int codigoComic) throws IOException {
-        // POR IMPLEMENTAR
     	String msjEnviado = "3#" + codigoComic;
-    	mySocket.sendMessage(msjEnviado);//Enviamos al socket la operacion a realizar
+    	mySocket.sendMessage(msjEnviado);	// Enviamos al socket la operacion a realizar
     	String msjRecibido = mySocket.receiveMessage();
-    	
-        return msjRecibido; // cambiar por el retorno correcto
-
+        return msjRecibido;	// Devolvemos la información del comic
     } // end compraComic
 
     /**
@@ -99,14 +89,10 @@ public class AuxiliarClienteTienda {
      * @throws IOException
      */
     public String vendeComic(int codigoComic) throws IOException {
-
-        // POR IMPLEMENTAR
-    	String msjEnviado = "4#" + codigoComic;//Enviamos al socket la operacion a realizar
+    	String msjEnviado = "4#" + codigoComic;	// Enviamos al socket la operacion a realizar
     	mySocket.sendMessage(msjEnviado);
     	String msjRecibido = mySocket.receiveMessage();
-        return msjRecibido; // cambiar por el retorno correcto
-
-
+        return msjRecibido; // Devolvemos la información del comic
     } // end vendeComic
 
     /**
@@ -115,8 +101,7 @@ public class AuxiliarClienteTienda {
      * @throws IOException
      */
     public void fin() throws IOException {
-        // POR IMPLEMENTAR
-    	mySocket.sendMessage("0");//Enviamos al socket la operacion a realizar
+    	mySocket.sendMessage("0");	// Enviamos al socket la operacion a realizar
     	mySocket.close();
     } // end done
 } //end class
