@@ -4,6 +4,8 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 import common.IntCallbackCliente;
@@ -18,7 +20,7 @@ import common.IntServidorTiendaRMI;
 
 public class ImplServidorTiendaRMI extends UnicastRemoteObject
 implements IntServidorTiendaRMI {
-	private Vector listaClientes;
+	private ArrayList<IntCallbackCliente> listaClientes;
 
 	
 	/**
@@ -30,7 +32,7 @@ implements IntServidorTiendaRMI {
 
 	public ImplServidorTiendaRMI() throws RemoteException {
 		super( );
-		listaClientes = new Vector();
+		listaClientes = new ArrayList<IntCallbackCliente>();
 	}
 
 	@Override
@@ -48,14 +50,13 @@ implements IntServidorTiendaRMI {
 	@Override
 	public String compraComic(int codigoBuscado) throws IOException,RemoteException {
 		GestorConsultas gestor = new GestorConsultas();
-		
 		return gestor.bajaEjemplar(codigoBuscado);
 	}
 
 	@Override
 	public String vendeComic(int codigoBuscado) throws IOException,RemoteException {
 		GestorConsultas gestor = new GestorConsultas();
-		vendido = true;
+		hacerCallbacks();
 		return gestor.altaEjemplar(codigoBuscado);
 	}
 	
@@ -66,40 +67,39 @@ implements IntServidorTiendaRMI {
 
 	@Override
 	public void registroCbk(IntCallbackCliente objCbkCliente) throws RemoteException, IOException {
-		// TODO Auto-generated method stub
 		//almacenamos el objeto callback en el vector
 		if(!listaClientes.contains(objCbkCliente)) {
-			listaClientes.addElement(objCbkCliente);
+			listaClientes.add(objCbkCliente);
 			System.out.println("Se ha registrado un nuevo cliente para notificar");
-			hacerCallbacks();
+			objCbkCliente.notificame("Se te ha registrado");
 		}
 	}
 
 	@Override
 	public synchronized void borraRegistro(IntCallbackCliente objCbkCliente) throws RemoteException, IOException {
-		// TODO Auto-generated method stub
-		if(listaClientes.removeElement(objCbkCliente)) {
-			System.out.println("Registro eliminado con éxito");
-		}else {
-			System.out.println("El cliente nunca se ha registrado");
+		if(listaClientes.remove(objCbkCliente)) {
+			System.out.println("Se ha eliminado un cliente con exito");
+			objCbkCliente.notificame("Se te ha eliminado");
+		} else {
+			objCbkCliente.notificame("Nunca te has registrado");
 		}
-		
 	}
 	
-	private synchronized void hacerCallbacks() throws RemoteException, IOException {
-		System.out.println("************* Callbacks a clientes registrados *************  \n");
-		for (int i = 0; i < listaClientes.size(); i++) {
-			System.out.println("Callback numero: " + i);
-			//convertimos el objeto vector al objeto callback
-			IntCallbackCliente proxCliente = (IntCallbackCliente) listaClientes.elementAt(i);
-			//metodo que notifica a los clientes
-			proxCliente.notificame("Numero de clientes " + listaClientes.size());
-			int codigoBuscado = 0;
-			if(vendido) {
-				proxCliente.notificame("Hay un nuevo cómic revendido");
+	private synchronized void hacerCallbacks() {
+		System.out.println("\n******* Callbacks a clientes registrados ***********");
+		System.out.println("Clientes registrados: " + listaClientes.size());
+		Iterator<IntCallbackCliente> iter = listaClientes.iterator();
+		for (int i = 1; iter.hasNext(); i++) {
+			System.out.println("Mandando mensaje a cliente " + i);
+			IntCallbackCliente proxClient = iter.next();
+			try {
+				proxClient.notificame("Hay un nuevo cómic revendido");
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("\nError, el cliente no es valido");
+				System.out.println("Eliminando cliente");
+				iter.remove();
 			}
-			
-			
 		}
 		System.out.println("************* No hay más callbacks *************  \n");	
 	}

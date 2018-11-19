@@ -24,12 +24,10 @@ public class ServidorTiendaRMI {
         BufferedReader br = new BufferedReader(is);
         String portNum, registryURL;
 
-
         try {
             System.out.println("Enter the RMIregistry port number:");
             portNum = (br.readLine()).trim();
             int RMIPortNum = Integer.parseInt(portNum);
-
 
             // start a security manager - this is needed if
             // stub downloading is in use for this application.

@@ -84,6 +84,7 @@ public class ClienteTiendaRMI {
 				select = menu(teclado);
 				switch (select) {
 				case 1:
+					interfazServidor.borraRegistro(interfazCliente);
 					System.out.println("CERRANDO EL PROGRAMA DE PRUEBA");
 					interfazServidor.fin();
 					break;
@@ -107,8 +108,6 @@ public class ClienteTiendaRMI {
 					System.out.println("Introduce el codigo de un cómic para vender: ");
 					codigo = teclado.nextInt();
 					System.out.println(interfazServidor.vendeComic(codigo));
-					//interfazCliente.notificame("5");
-					
 					break;
 				case 6:
 					interfazServidor.registroCbk(interfazCliente);

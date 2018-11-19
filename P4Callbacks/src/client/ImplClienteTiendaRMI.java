@@ -12,7 +12,6 @@ implements IntCallbackCliente {
 
 	protected ImplClienteTiendaRMI() throws RemoteException {
 		super();
-		
 	}
 
 	/**
@@ -22,13 +21,8 @@ implements IntCallbackCliente {
 
 	@Override
 	public String notificame(String msj) throws RemoteException, IOException {
-		// TODO Auto-generated method stub
 		String mensaje = "Callback recibido: " + msj;
-		/*if(msj.equals("5")) {
-			System.out.println(mensaje + "Se ha revendido un cómic");
-		}else {
-			System.out.println("Estoy en el else");
-		}*/System.out.println(mensaje);
+		System.out.println(mensaje);
 		return mensaje;
 	}
 

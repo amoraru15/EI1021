@@ -101,8 +101,6 @@ public class GestorConsultas {
 		}
 
 		String[] listaComics = listaAutores.toArray(new String[listaAutores.size()]);
-		
-		
 		return listaComics;
     }
 
